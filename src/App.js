@@ -21,6 +21,31 @@ function App() {
   const handleBookAppointment = (doctor) => {
     alert(`Booking confirmed with ${doctor}`);
   };
+  const packages = [
+  {
+    name: 'Basic Health Checkup',
+    description: 'Covers blood tests, sugar level, BP, and general consultation.',
+    price: '₹999',
+  },
+  {
+    name: 'Advanced Full Body Checkup',
+    description: 'Includes all basic tests + ECG, liver & kidney profile.',
+    price: '₹2499',
+  },
+  {
+    name: 'Senior Citizen Package',
+    description: 'Tailored for 60+ with bone density, eye, and heart screening.',
+    price: '₹1999',
+  },
+];
+
+    function App() {
+      return (
+        <div className="App">
+          <PackageList packages={packages} />
+        </div>
+      );
+    }
 
   return (
     <div className="bg-white text-gray-800 dark:bg-gray-900 dark:text-white min-h-screen">
