@@ -23,21 +23,26 @@ function App() {
   };
   const packages = [
   {
-    name: 'Basic Health Checkup',
-    description: 'Covers blood tests, sugar level, BP, and general consultation.',
-    price: '₹999',
+    name: "Basic Health Checkup",
+    description: "Covers essential blood and organ tests.",
+    price: "₹799",
+    category: "Basic"
   },
   {
-    name: 'Advanced Full Body Checkup',
-    description: 'Includes all basic tests + ECG, liver & kidney profile.',
-    price: '₹2499',
+    name: "Full Body Checkup",
+    description: "Complete analysis with advanced diagnostics.",
+    price: "₹1999",
+    category: "Advanced"
   },
   {
-    name: 'Senior Citizen Package',
-    description: 'Tailored for 60+ with bone density, eye, and heart screening.',
-    price: '₹1999',
+    name: "Senior Citizen Checkup",
+    description: "Tailored for age-related concerns.",
+    price: "₹1499",
+    category: "Senior"
   },
+  // Add more...
 ];
+
 
     function App() {
       return (

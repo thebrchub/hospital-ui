@@ -8,6 +8,8 @@ const PackageList = ({ packages }) => {
 
   const filteredPackages =
     category === 'All' ? packages : packages.filter((p) => p.category === category);
+    
+
 
   return (
     <section id="packages" className="px-6 py-12 bg-gray-50 dark:bg-gray-900">
