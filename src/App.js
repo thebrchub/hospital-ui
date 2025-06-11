@@ -1,10 +1,11 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import AppointmentCard from './components/AppointmentCard';
 import PackageList from './components/PackageList';
 import ThemeToggle from './components/ThemeToggle';
-// import LoginForm from './components/LoginForm'; // Uncomment if you want login shown
+import LoginForm from './components/LoginForm';
 
 function App() {
   const dummyAppointments = [
@@ -39,37 +40,49 @@ function App() {
   };
 
   return (
-    <div className="bg-white text-gray-800 dark:bg-gray-900 dark:text-white min-h-screen">
-      <Navbar />
-      <ThemeToggle />
-      <Hero />
+    <Router>
+      <div className="bg-white text-gray-800 dark:bg-gray-900 dark:text-white min-h-screen">
+        <Navbar />
+        <ThemeToggle />
 
-      {/* Login Page (Optional) */}
-      {/* <LoginForm /> */}
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <Hero />
 
-      {/* Appointment Section */}
-      <section id="appointments" className="px-6 py-12 bg-gray-100 dark:bg-gray-800">
-        <h2 className="text-2xl font-bold text-center mb-6">Available Appointments</h2>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 place-items-center">
-          {dummyAppointments.map((appt, idx) => (
-            <AppointmentCard
-              key={idx}
-              doctor={appt.doctor}
-              time={appt.time}
-              onBook={() => handleBookAppointment(appt.doctor)}
-            />
-          ))}
-        </div>
-      </section>
+                {/* Appointments */}
+                <section id="appointments" className="px-6 py-12 bg-gray-100 dark:bg-gray-800">
+                  <h2 className="text-2xl font-bold text-center mb-6">Available Appointments</h2>
+                  <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 place-items-center">
+                    {dummyAppointments.map((appt, idx) => (
+                      <AppointmentCard
+                        key={idx}
+                        doctor={appt.doctor}
+                        time={appt.time}
+                        onBook={() => handleBookAppointment(appt.doctor)}
+                      />
+                    ))}
+                  </div>
+                </section>
 
-      {/* Health Packages Section */}
-      <PackageList packages={dummyPackages} />
+                {/* Packages */}
+                <PackageList packages={dummyPackages} />
 
-      {/* Footer */}
-      <footer id="contact" className="text-center py-6 bg-white dark:bg-gray-800">
-        <p>© 2025 HospitalCare. All rights reserved.</p>
-      </footer>
-    </div>
+                {/* Footer */}
+                <footer id="contact" className="text-center py-6 bg-white dark:bg-gray-800">
+                  <p>© 2025 HospitalCare. All rights reserved.</p>
+                </footer>
+              </>
+            }
+          />
+
+          {/* Login Page Route */}
+          <Route path="/login" element={<LoginForm />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
