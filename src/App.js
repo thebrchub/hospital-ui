@@ -4,6 +4,7 @@ import Hero from './components/Hero';
 import AppointmentCard from './components/AppointmentCard';
 import PackageList from './components/PackageList';
 import ThemeToggle from './components/ThemeToggle';
+// import LoginForm from './components/LoginForm'; // Uncomment if you want login shown
 
 function App() {
   const dummyAppointments = [
@@ -13,50 +14,38 @@ function App() {
   ];
 
   const dummyPackages = [
-    { title: 'Basic Health Check', price: '₹999', description: 'Blood, urine, ECG & consultation' },
-    { title: 'Comprehensive Checkup', price: '₹2499', description: 'Full body test with reports' },
-    { title: 'Diabetes Care', price: '₹799', description: 'Sugar, HbA1c, diet consultation' },
+    {
+      name: "Basic Health Checkup",
+      description: "Covers essential blood and organ tests.",
+      price: "₹799",
+      category: "Basic"
+    },
+    {
+      name: "Full Body Checkup",
+      description: "Complete analysis with advanced diagnostics.",
+      price: "₹1999",
+      category: "Advanced"
+    },
+    {
+      name: "Senior Citizen Checkup",
+      description: "Tailored for age-related concerns.",
+      price: "₹1499",
+      category: "Senior"
+    },
   ];
 
   const handleBookAppointment = (doctor) => {
     alert(`Booking confirmed with ${doctor}`);
   };
-  const packages = [
-  {
-    name: "Basic Health Checkup",
-    description: "Covers essential blood and organ tests.",
-    price: "₹799",
-    category: "Basic"
-  },
-  {
-    name: "Full Body Checkup",
-    description: "Complete analysis with advanced diagnostics.",
-    price: "₹1999",
-    category: "Advanced"
-  },
-  {
-    name: "Senior Citizen Checkup",
-    description: "Tailored for age-related concerns.",
-    price: "₹1499",
-    category: "Senior"
-  },
-  // Add more...
-];
-
-
-    function App() {
-      return (
-        <div className="App">
-          <PackageList packages={packages} />
-        </div>
-      );
-    }
 
   return (
     <div className="bg-white text-gray-800 dark:bg-gray-900 dark:text-white min-h-screen">
       <Navbar />
       <ThemeToggle />
       <Hero />
+
+      {/* Login Page (Optional) */}
+      {/* <LoginForm /> */}
 
       {/* Appointment Section */}
       <section id="appointments" className="px-6 py-12 bg-gray-100 dark:bg-gray-800">
@@ -73,7 +62,7 @@ function App() {
         </div>
       </section>
 
-      {/* Packages Section */}
+      {/* Health Packages Section */}
       <PackageList packages={dummyPackages} />
 
       {/* Footer */}
