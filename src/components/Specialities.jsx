@@ -1,10 +1,21 @@
 import React from 'react';
-import { Heart, Brain, Lungs, Bone, Stethoscope, Syringe, Eye, Kidney, ShieldCheck, Baby } from 'lucide-react';
+import {
+  HeartPulse,
+  Wind,
+  Droplets,
+  Brain,
+  Bone,
+  Eye,
+  Stethoscope,
+  Syringe,
+  ShieldCheck,
+  Baby,
+} from 'lucide-react';
 
 const specialities = [
-  { icon: <Heart className="w-8 h-8 text-red-500" />, name: 'Cardiology' },
-  { icon: <Lungs className="w-8 h-8 text-blue-500" />, name: 'Pulmonology' },
-  { icon: <Kidney className="w-8 h-8 text-purple-500" />, name: 'Nephrology' },
+  { icon: <HeartPulse className="w-8 h-8 text-red-500" />, name: 'Cardiology' },
+  { icon: <Wind className="w-8 h-8 text-blue-500" />, name: 'Pulmonology' },
+  { icon: <Droplets className="w-8 h-8 text-purple-500" />, name: 'Nephrology' },
   { icon: <Brain className="w-8 h-8 text-pink-500" />, name: 'Neurology' },
   { icon: <Bone className="w-8 h-8 text-yellow-600" />, name: 'Orthopedics' },
   { icon: <Eye className="w-8 h-8 text-teal-500" />, name: 'Ophthalmology' },

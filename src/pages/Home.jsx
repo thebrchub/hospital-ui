@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Hero from '../components/Hero';
 import Specialities from '../components/Specialities';
+import HealthPackages from '../components/HealthPackages';
 import DoctorCard from '../components/DoctorCard';
 import AppointmentForm from '../components/AppointmentForm';
 
@@ -10,7 +11,7 @@ const doctorList = [
     name: 'Dr. Narender Manickavachakan',
     designation: 'Senior Consultant',
     specialization: 'Plastic Surgery',
-    image: '/images/dr-narender.jpg', // Place this image in your public/images folder
+    image: '/images/dr-narender.jpg',
   },
   {
     id: 2,
@@ -27,11 +28,16 @@ const Home = () => {
 
   return (
     <main>
+      {/* Hero section with tabs below */}
       <Hero />
+
+      {/* Our Specialities */}
       <Specialities />
 
-      {/* Doctor Section */}
-      <section className="py-12 px-4 bg-gray-50 dark:bg-gray-900">
+      <HealthPackages />
+
+      {/* Our Doctors Section */}
+      <section className="py-12 px-4 bg-gray-50 dark:bg-gray-900" id="doctors">
         <h2 className="text-2xl font-bold text-center text-gray-800 dark:text-white mb-8">
           Our Doctors
         </h2>
@@ -44,9 +50,19 @@ const Home = () => {
             />
           ))}
         </div>
+
+        {/* Show All Doctors Button */}
+        <div className="mt-8 text-center">
+          <a
+            href="/doctors"
+            className="inline-block bg-blue-600 text-white px-6 py-2 rounded-full font-medium hover:bg-blue-700 transition"
+          >
+            Show All Doctors
+          </a>
+        </div>
       </section>
 
-      {/* Appointment Form Modal */}
+      {/* Appointment Modal */}
       {selectedDoctor && (
         <AppointmentForm
           doctor={selectedDoctor.name}
