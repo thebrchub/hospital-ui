@@ -9,6 +9,7 @@ import RegisterForm from './components/RegisterForm';
 import Home from './pages/Home';
 import Appointments from './pages/Appointment';
 import Packages from './pages/Packages';
+import Doctor from './pages/Doctors';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
 
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/doctors" element={<Doctor />} />
           <Route path="/appointments" element={<Appointments />} />
           <Route path="/packages" element={<Packages />} />
           <Route path="/login" element={<LoginForm />} />
