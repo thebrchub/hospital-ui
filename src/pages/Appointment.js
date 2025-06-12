@@ -12,11 +12,11 @@ const Appointment = () => {
   const specialities = ['Cardiology', 'Dermatology', 'Pediatrics', 'Orthopedics', 'ENT'];
 
   const doctorData = [
-    { name: 'Dr. Anjali Rao', speciality: 'Cardiology', time: '10:00 AM - 11:00 AM' },
-    { name: 'Dr. Vikram Mehta', speciality: 'Dermatology', time: '11:30 AM - 12:30 PM' },
-    { name: 'Dr. Neha Sharma', speciality: 'Pediatrics', time: '2:00 PM - 3:00 PM' },
-    { name: 'Dr. Aakash Jain', speciality: 'Orthopedics', time: '4:00 PM - 5:00 PM' },
-    { name: 'Dr. Kavita Reddy', speciality: 'ENT', time: '5:30 PM - 6:30 PM' },
+    { name: 'Dr. Anjali Rao', speciality: 'Cardiology', time: '09:00 AM - 04:00 PM' },
+    { name: 'Dr. Vikram Mehta', speciality: 'Dermatology', time: '09:00 AM - 04:00 PM' },
+    { name: 'Dr. Neha Sharma', speciality: 'Pediatrics', time: '09:00 AM - 04:00 PM' },
+    { name: 'Dr. Aakash Jain', speciality: 'Orthopedics', time: '09:00 AM - 04:00 PM' },
+    { name: 'Dr. Kavita Reddy', speciality: 'ENT', time: '09:00 AM - 04:00 PM' },
   ];
 
   const handleBookAppointment = (doctorName) => {
