@@ -25,7 +25,6 @@ function App() {
           <Route path="/packages" element={<Packages />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/register" element={<RegisterForm />} />
-
         </Routes>
 
         {/* Footer visible on all pages */}

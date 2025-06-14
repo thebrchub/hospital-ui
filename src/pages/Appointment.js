@@ -12,7 +12,9 @@ const Appointment = () => {
   const specialities = ['Cardiology', 'Dermatology', 'Pediatrics', 'Orthopedics', 'ENT'];
 
   const doctorData = [
+    { name: 'Dr. Narender Murthy', speciality: 'Plastic Surgery', time: '09:00 AM - 04:00 PM' },
     { name: 'Dr. Anjali Rao', speciality: 'Cardiology', time: '09:00 AM - 04:00 PM' },
+    { name: 'Dr. Asha Reddy', speciality: 'Dermatology', time: '09:00 AM - 04:00 PM' },
     { name: 'Dr. Vikram Mehta', speciality: 'Dermatology', time: '09:00 AM - 04:00 PM' },
     { name: 'Dr. Neha Sharma', speciality: 'Pediatrics', time: '09:00 AM - 04:00 PM' },
     { name: 'Dr. Aakash Jain', speciality: 'Orthopedics', time: '09:00 AM - 04:00 PM' },
