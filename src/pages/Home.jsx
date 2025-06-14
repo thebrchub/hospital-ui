@@ -11,7 +11,7 @@ const allDoctors = [
     name: 'Dr. Narender Manickavachakan',
     designation: 'Senior Consultant',
     specialization: 'Plastic Surgery',
-    image: '/images/dr-narender.jpg',
+    image: '/public/MaleDr.png',
   },
   {
     id: 2,
