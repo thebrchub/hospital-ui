@@ -10,31 +10,31 @@ const categories = [
 
 const packagesData = {
   'General Health Checkup': [
-    { name: 'Essential Wellness', price: '₹1499', image: '/images/general1.jpg' },
-    { name: 'Total Care Basic', price: '₹2499', image: '/images/general2.jpg' },
-    { name: 'Core Health Panel', price: '₹1999', image: '/images/general3.jpg' },
-    { name: 'General Gold Plan', price: '₹2999', image: '/images/general4.jpg' },
+    { name: 'Essential Wellness', price: '₹1499', image: '/images/general1.png' },
+    { name: 'Total Care Basic', price: '₹2499', image: '/images/general2.png' },
+    { name: 'Core Health Panel', price: '₹1999', image: '/images/general3.png' },
+    { name: 'General Gold Plan', price: '₹2999', image: '/images/general4.png' },
   ],
   'Age-specific Checkup': [
-    { name: 'Senior Shield 60+', price: '₹2199', image: '/images/age1.jpg' },
-    { name: 'Adult Active 40-60', price: '₹1799', image: '/images/age2.jpg' },
-    { name: 'Youth Vital 20-40', price: '₹1599', image: '/images/age3.jpg' },
+    { name: 'Senior Shield 60+', price: '₹2199', image: '/images/age1.png' },
+    { name: 'Adult Active 40-60', price: '₹1799', image: '/images/age2.png' },
+    { name: 'Youth Vital 20-40', price: '₹1599', image: '/images/age3.png' },
   ],
   'Condition-specific Checkup': [
-    { name: 'Cardio Care', price: '₹2899', image: '/images/cond1.jpg' },
-    { name: 'Liver Pro Panel', price: '₹1999', image: '/images/cond2.jpg' },
-    { name: 'Thyroid Focus', price: '₹999', image: '/images/cond3.jpg' },
-    { name: 'Diabetic Wellness', price: '₹1899', image: '/images/cond4.jpg' },
+    { name: 'Cardio Care', price: '₹2899', image: '/images/cond1.png' },
+    { name: 'Liver Pro Panel', price: '₹1999', image: '/images/cond2.png' },
+    { name: 'Thyroid Focus', price: '₹999', image: '/images/cond3.png' },
+    { name: 'Diabetic Wellness', price: '₹1899', image: '/images/cond4.png' },
   ],
   'Women Health Checkup': [
-    { name: 'Complete Women Plus', price: '₹2999', image: '/images/women1.jpg' },
-    { name: 'Fertility Focus', price: '₹2499', image: '/images/women2.jpg' },
-    { name: 'Well Woman Basic', price: '₹1899', image: '/images/women3.jpg' },
+    { name: 'Complete Women Plus', price: '₹2999', image: '/images/women1.png' },
+    { name: 'Fertility Focus', price: '₹2499', image: '/images/women2.png' },
+    { name: 'Well Woman Basic', price: '₹1899', image: '/images/women3.png' },
   ],
   'Executive Health Checkup': [
-    { name: 'Corporate Shield Basic', price: '₹3499', image: '/images/executive1.jpg' },
-    { name: 'Leadership Wellness Elite', price: '₹4999', image: '/images/executive2.jpg' },
-    { name: 'Manager Fit Plan', price: '₹3999', image: '/images/executive3.jpg' },
+    { name: 'Corporate Shield Basic', price: '₹3499', image: '/images/executive1.png' },
+    { name: 'Leadership Wellness Elite', price: '₹4999', image: '/images/executive2.png' },
+    { name: 'Manager Fit Plan', price: '₹3999', image: '/images/executive3.png' },
   ],
 };
 
