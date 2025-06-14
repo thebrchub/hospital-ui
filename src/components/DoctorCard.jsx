@@ -12,24 +12,24 @@ const DoctorCard = ({ doctor, onBook }) => {
       />
 
       {/* Name */}
-      <h3 className="mt-4 text-lg font-bold text-blue-900 dark:text-white">
+      <h3 className="mt-4 text-lg font-semi-bold text-blue-900 dark:text-white">
         {doctor.name}
       </h3>
 
       {/* Designation */}
-      <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 mt-1">
+      <p className="text-sm font-regular text-gray-700 dark:text-gray-300 mt-1">
         {doctor.designation}
       </p>
 
       {/* Specialization */}
-      <p className="text-sm text-purple-700 font-semibold mt-1">
+      <p className="text-sm text-purple-700 font-semi-bold mt-1">
         {doctor.specialization}
       </p>
 
       {/* Book Button */}
       <button
         onClick={onBook}
-        className="mt-4 bg-indigo-800 hover:bg-indigo-900 text-white text-sm font-semibold px-4 py-2 rounded-md"
+        className="mt-4 bg-indigo-800 hover:bg-indigo-900 text-white text-sm font-regular px-4 py-2 rounded-md"
       >
         Book an Appointment
       </button>

@@ -6,52 +6,52 @@ import AppointmentForm from '../components/AppointmentForm';
 const doctorList = [
   {
     id: 1,
-    name: 'Dr. Narender Manickavachakan',
+    name: 'Dr. Narender Murthy',
     designation: 'Senior Consultant',
     specialization: 'Plastic Surgery',
-    image: '/images/dr-narender.jpg',
+    image: '/images/MaleDr.png',
   },
   {
     id: 2,
     name: 'Dr. Asha Reddy',
     designation: 'Consultant',
     specialization: 'Dermatology',
-    image: '/images/dr-asha.jpg',
+    image: '/images/FemaleDr.png',
   },
   {
     id: 3,
     name: 'Dr. Anjali Rao',
     designation: 'Senior Cardiologist',
     specialization: 'Cardiology',
-    image: '/images/dr-anjali.jpg',
+    image: '/images/FemaleDr.png',
   },
   {
     id: 4,
     name: 'Dr. Vikram Mehta',
     designation: 'Skin Specialist',
     specialization: 'Dermatology',
-    image: '/images/dr-vikram.jpg',
+    image: '/images/MaleDr.png',
   },
   {
     id: 5,
     name: 'Dr. Neha Sharma',
     designation: 'Child Specialist',
     specialization: 'Pediatrics',
-    image: '/images/dr-neha.jpg',
+    image: '/images/FemaleDr.png',
   },
   {
     id: 6,
     name: 'Dr. Aakash Jain',
     designation: 'Orthopedic Surgeon',
     specialization: 'Orthopedics',
-    image: '/images/dr-aakash.jpg',
+    image: '/images/MaleDr.png',
   },
   {
     id: 7,
     name: 'Dr. Kavita Reddy',
     designation: 'ENT Specialist',
     specialization: 'ENT',
-    image: '/images/dr-kavita.jpg',
+    image: '/images/FemaleDr.png',
   },
 ];
 
@@ -60,7 +60,7 @@ const Doctor = () => {
 
   return (
     <main className="py-12 px-4 bg-gray-50 dark:bg-gray-900 min-h-screen">
-      <h1 className="text-3xl font-bold text-center text-gray-800 dark:text-white mb-10">
+      <h1 className="text-3xl font-semi-bold text-center text-gray-800 dark:text-white mb-10">
         Meet Our Doctors
       </h1>
 

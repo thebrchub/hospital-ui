@@ -37,7 +37,7 @@ const Appointment = () => {
 
   return (
     <div className="px-6 py-12 bg-white dark:bg-gray-900 min-h-screen">
-      <h1 className="text-3xl font-bold text-center mb-10 text-gray-800 dark:text-white">
+      <h1 className="text-3xl font-semi-bold text-center mb-10 text-gray-800 dark:text-white">
         Request for an Appointment
       </h1>
 
@@ -93,7 +93,7 @@ const Appointment = () => {
       </div>
 
       {/* Appointment Cards */}
-      <h2 className="text-2xl font-bold text-center mb-6 text-gray-800 dark:text-white">Available Appointments</h2>
+      <h2 className="text-2xl font-semi-bold text-center mb-6 text-gray-800 dark:text-white">Available Appointments</h2>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 place-items-center">
         {filteredAppointments.map((appt, idx) => (
           <AppointmentCard
