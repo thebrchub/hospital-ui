@@ -1,27 +1,96 @@
-import React from 'react';
-import PackageList from '../components/PackageList';
+import React, { useState } from 'react';
 
-const packages = [
-  {
-    name: "Basic Health Checkup",
-    description: "Covers essential blood and organ tests.",
-    price: "₹799",
-    category: "Basic"
-  },
-  {
-    name: "Full Body Checkup",
-    description: "Complete analysis with advanced diagnostics.",
-    price: "₹1999",
-    category: "Advanced"
-  },
-  {
-    name: "Senior Citizen Checkup",
-    description: "Tailored for age-related concerns.",
-    price: "₹1499",
-    category: "Senior"
-  },
+const categories = [
+  'General Health Checkup',
+  'Age-specific Checkup',
+  'Condition-specific Checkup',
+  'Women Health Checkup',
+  'Executive Health Checkup',
 ];
 
-const Packages = () => <PackageList packages={packages} />;
+const packagesData = {
+  'General Health Checkup': [
+    { name: 'Essential Wellness', price: '₹1499', image: '/images/general1.jpg' },
+    { name: 'Total Care Basic', price: '₹2499', image: '/images/general2.jpg' },
+    { name: 'Core Health Panel', price: '₹1999', image: '/images/general3.jpg' },
+    { name: 'General Gold Plan', price: '₹2999', image: '/images/general4.jpg' },
+  ],
+  'Age-specific Checkup': [
+    { name: 'Senior Shield 60+', price: '₹2199', image: '/images/age1.jpg' },
+    { name: 'Adult Active 40-60', price: '₹1799', image: '/images/age2.jpg' },
+    { name: 'Youth Vital 20-40', price: '₹1599', image: '/images/age3.jpg' },
+  ],
+  'Condition-specific Checkup': [
+    { name: 'Cardio Care', price: '₹2899', image: '/images/cond1.jpg' },
+    { name: 'Liver Pro Panel', price: '₹1999', image: '/images/cond2.jpg' },
+    { name: 'Thyroid Focus', price: '₹999', image: '/images/cond3.jpg' },
+    { name: 'Diabetic Wellness', price: '₹1899', image: '/images/cond4.jpg' },
+  ],
+  'Women Health Checkup': [
+    { name: 'Complete Women Plus', price: '₹2999', image: '/images/women1.jpg' },
+    { name: 'Fertility Focus', price: '₹2499', image: '/images/women2.jpg' },
+    { name: 'Well Woman Basic', price: '₹1899', image: '/images/women3.jpg' },
+  ],
+  'Executive Health Checkup': [
+    { name: 'Corporate Shield Basic', price: '₹3499', image: '/images/executive1.jpg' },
+    { name: 'Leadership Wellness Elite', price: '₹4999', image: '/images/executive2.jpg' },
+    { name: 'Manager Fit Plan', price: '₹3999', image: '/images/executive3.jpg' },
+  ],
+};
 
-export default Packages;
+const HealthPackages = () => {
+  const [activeCategory, setActiveCategory] = useState('General Health Checkup');
+
+  return (
+    <section id="health-packages" className="py-16 bg-white dark:bg-gray-950 px-6">
+      <h2 className="text-3xl font-bold text-center text-gray-800 dark:text-white mb-10">
+        Health Checkup Packages
+      </h2>
+
+      {/* Top pill tabs */}
+      <div className="flex flex-wrap justify-center gap-4 mb-10">
+        {categories.map((category) => (
+          <button
+            key={category}
+            onClick={() => setActiveCategory(category)}
+            className={`px-5 py-2 rounded-full border font-medium transition 
+              ${
+                activeCategory === category
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-white border-blue-600 hover:bg-blue-100'
+              }`}
+          >
+            {category}
+          </button>
+        ))}
+      </div>
+
+      {/* Package Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 max-w-6xl mx-auto">
+        {packagesData[activeCategory].map((pkg, idx) => (
+          <div key={idx} className="bg-white dark:bg-gray-900 rounded-xl shadow-md overflow-hidden">
+            {/* Image */}
+            <img
+              src={pkg.image}
+              alt={pkg.name}
+              className="w-full h-40 object-cover"
+            />
+            {/* Text below image */}
+            <div className="p-4">
+              <h3 className="text-lg font-medium text-gray-800 dark:text-white">{pkg.name}</h3>
+              <p className="text-gray-600 dark:text-gray-300 text-lg mt-1 mb-4">{pkg.price}</p>
+              <a
+                href="#"
+                className="text-blue-700 text-sm font-medium hover:underline"
+              >
+                View
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+export default HealthPackages;
