@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -13,47 +13,58 @@ const RegisterForm = () => {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const redirectTo = location.state?.from || '/';
+  const savedFormData = location.state?.formData || null;
 
   const handleRegister = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (password !== confirmPassword) {
-    toast.error("Passwords do not match");
-    return;
-  }
-
-  const payload = {
-    name,
-    dob: new Date().toISOString().split("T")[0], // for now, using current date
-    mobile,
-    email,
-    password,
-  };
-
-  try {
-    setLoading(true);
-    const response = await fetch('https://hospital-app-deploy.onrender.com/v1/auth/user/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
-
-    const data = await response.json();
-    setLoading(false);
-
-    if (response.ok) {
-      toast.success('Registered successfully!');
-      setTimeout(() => navigate('/login'), 1500);
-    } else {
-      toast.error(data?.message || 'Registration failed.');
+    if (password !== confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
     }
-  } catch (error) {
-    setLoading(false);
-    toast.error('Server error. Please try again later.');
-    console.error('Registration Error:', error);
-  }
-};
 
+    const payload = {
+      name,
+      dob: new Date().toISOString().split("T")[0], // using current date for now
+      mobile,
+      email,
+      password,
+    };
+
+    try {
+      setLoading(true);
+      const response = await fetch('https://hospital-app-deploy.onrender.com/v1/auth/user/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await response.json();
+      setLoading(false);
+
+      if (response.ok) {
+        toast.success('Registered successfully!');
+        setTimeout(() => {
+          navigate('/login', {
+            state: {
+              from: redirectTo,
+              formData: savedFormData,
+            },
+            replace: true,
+          });
+        }, 1500);
+      } else {
+        toast.error(data?.message || 'Registration failed.');
+      }
+    } catch (error) {
+      setLoading(false);
+      toast.error('Server error. Please try again later.');
+      console.error('Registration Error:', error);
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-200 to-blue-100 dark:from-gray-800 dark:to-gray-900">
@@ -139,7 +150,11 @@ const RegisterForm = () => {
 
           <p className="text-sm text-center text-gray-600 dark:text-gray-400">
             Already have an account?{' '}
-            <Link to="/login" className="text-blue-600 hover:underline dark:text-blue-400">
+            <Link
+              to="/login"
+              state={{ from: redirectTo, formData: savedFormData }}
+              className="text-blue-600 hover:underline dark:text-blue-400"
+            >
               Login here
             </Link>
           </p>

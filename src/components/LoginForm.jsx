@@ -1,6 +1,5 @@
-// src/components/LoginForm.jsx
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -12,6 +11,10 @@ const LoginForm = () => {
 
   const { login } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const redirectTo = location.state?.from || '/';
+  const savedFormData = location.state?.formData || null;
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -37,7 +40,14 @@ const LoginForm = () => {
       if (response.ok) {
         toast.success('Login successful!');
         login(data.token); // ✅ store token using context
-        setTimeout(() => navigate('/'), 1500);
+
+        setTimeout(() => {
+          // Redirect after login with form data if present
+          navigate(redirectTo, {
+            state: savedFormData ? { restoredForm: savedFormData } : {},
+            replace: true,
+          });
+        }, 1500);
       } else {
         toast.error(data?.message || 'Login failed');
       }

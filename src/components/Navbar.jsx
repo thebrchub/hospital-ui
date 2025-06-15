@@ -14,7 +14,13 @@ const Navbar = () => {
 
   return (
     <nav className="flex items-center justify-between px-6 py-4 bg-white shadow-md dark:bg-gray-800">
-      <h1 className="text-xl font-bold text-blue-600 dark:text-white">HospitalCare</h1>
+      <Link to="/" className="flex items-center space-x-2">
+  <img src="/logo.png" alt="Logo" className="h-8 transform scale-125" />
+  <span className="text-lg font-bold text-blue-600 dark:text-white hidden sm:inline">Hospital Care</span>
+</Link>
+
+
+
 
       <ul className="flex gap-6 text-gray-700 dark:text-gray-200 items-center">
         <li><Link to="/" className="hover:text-blue-500">Home</Link></li>

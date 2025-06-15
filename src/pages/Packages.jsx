@@ -53,7 +53,7 @@ const HealthPackages = () => {
           <button
             key={category}
             onClick={() => setActiveCategory(category)}
-            className={`px-5 py-2 rounded-full border font-medium transition 
+            className={`px-5 py-2 rounded-full shadow font-medium transition 
               ${
                 activeCategory === category
                   ? 'bg-blue-600 text-white'

@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import StripeCheckoutButton from './StripeCheckoutButton';
 
-const timeSlots = [
-  '09:00 AM', '09:10 AM', '09:20 AM', '09:30 AM', '09:40 AM', '09:50 AM',
-  '10:00 AM', '10:10 AM', '10:20 AM', '10:30 AM', '10:40 AM', '10:50 AM',
-  '11:00 AM', '11:10 AM', '11:20 AM', '11:30 AM', '11:40 AM', '11:50 AM',
-  '12:00 PM', '12:10 PM', '12:20 PM', '12:30 PM', '12:40 PM', '12:50 PM',
-  '02:00 PM', '02:10 PM', '02:20 PM', '02:30 PM', '02:40 PM', '02:50 PM',
-  '03:00 PM', '03:10 PM', '03:20 PM', '03:30 PM', '03:40 PM', '03:50 PM'
-];
+function formatTimeToSlot(timeStr) {
+  const [h, m] = timeStr.split(':').map(Number);
+  const suffix = h >= 12 ? 'PM' : 'AM';
+  const hour = h % 12 === 0 ? 12 : h % 12;
+  return `${hour.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')} ${suffix}`;
+}
 
 const AppointmentForm = ({ doctor, onClose }) => {
   const [date, setDate] = useState('');
@@ -18,11 +18,26 @@ const AppointmentForm = ({ doctor, onClose }) => {
   const [otpSent, setOtpSent] = useState(false);
   const [otp, setOtp] = useState('');
   const [disabledSlots, setDisabledSlots] = useState([]);
+  const [availableSlots, setAvailableSlots] = useState([]);
+  const [loadingSlots, setLoadingSlots] = useState(false);
   const [dateWarning, setDateWarning] = useState('');
   const dateInputRef = useRef(null);
-  const navigate = useNavigate();
 
-  const unavailableDates = ['2025-06-15', '2025-06-20'];
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const unavailableDates = [];
+
+  useEffect(() => {
+    const saved = location.state || JSON.parse(localStorage.getItem('pendingAppointment'));
+    if (saved) {
+      setDate(saved.date || '');
+      setSlot(saved.slot || '');
+      setConsultType(saved.consultType || '');
+      setMobile(saved.mobile || '');
+      localStorage.removeItem('pendingAppointment');
+    }
+  }, [location.state]);
 
   useEffect(() => {
     if (!date) return;
@@ -33,25 +48,59 @@ const AppointmentForm = ({ doctor, onClose }) => {
 
     if (isToday) {
       const now = today.getHours() * 60 + today.getMinutes();
-      const disabled = timeSlots.filter((slot) => {
-        const [time, modifier] = slot.split(' ');
-        let [hours, minutes] = time.split(':').map(Number);
-        if (modifier === 'PM' && hours !== 12) hours += 12;
-        const totalMinutes = hours * 60 + minutes;
-        return totalMinutes <= now;
-      });
+      const disabled = availableSlots
+        .map(s => s.formattedTime)
+        .filter((slot) => {
+          const [time, modifier] = slot.split(' ');
+          let [hours, minutes] = time.split(':').map(Number);
+          if (modifier === 'PM' && hours !== 12) hours += 12;
+          const totalMinutes = hours * 60 + minutes;
+          return totalMinutes <= now;
+        });
       setDisabledSlots(disabled);
     } else {
       setDisabledSlots([]);
     }
-  }, [date]);
+  }, [date, availableSlots]);
+
+  useEffect(() => {
+    if (!date || !doctor?.id) return;
+
+    const fetchSlots = async () => {
+      try {
+        setLoadingSlots(true);
+        const response = await fetch(`https://hospital-app-deploy.onrender.com/v1/public/slots/${doctor.id}?date=${date}&available=false`);
+        const data = await response.json();
+
+        const formatted = data
+          .map(slot => ({
+            id: slot.id,
+            formattedTime: formatTimeToSlot(slot.startTime),
+            startTime: slot.startTime,
+            status: slot.status
+          }))
+          .sort((a, b) => new Date(`1970-01-01T${a.startTime}`) - new Date(`1970-01-01T${b.startTime}`));
+
+        setAvailableSlots(formatted);
+        if (formatted.length === 0) {
+          toast.info("No slots available for this date.");
+        }
+      } catch (error) {
+        toast.error("Failed to fetch slots. Please try again.");
+      } finally {
+        setLoadingSlots(false);
+      }
+    };
+
+    fetchSlots();
+  }, [date, doctor]);
 
   const handleDateChange = (e) => {
     const selectedDate = e.target.value;
     const day = new Date(selectedDate).getDay();
 
     if (day === 0 || unavailableDates.includes(selectedDate)) {
-      setDateWarning("Doctor is not available for the selected date. Please select any other date & proceed or call 0123456789 for assistance.");
+      setDateWarning("Doctor is not available for the selected date. Please select another date or call 0123456789 for help.");
       setDate('');
     } else {
       setDateWarning('');
@@ -73,6 +122,15 @@ const AppointmentForm = ({ doctor, onClose }) => {
       return;
     }
 
+    const isLoggedIn = !!localStorage.getItem("authToken");
+
+    if (!isLoggedIn) {
+      const formState = { doctor, date, slot, consultType, mobile };
+      localStorage.setItem("pendingAppointment", JSON.stringify(formState));
+      navigate('/login');
+      return;
+    }
+
     const isRegistered = Math.random() > 0.5;
     if (isRegistered) {
       alert('OTP Verified! Appointment booked.');
@@ -82,6 +140,8 @@ const AppointmentForm = ({ doctor, onClose }) => {
       navigate('/register');
     }
   };
+
+  const selectedSlotId = availableSlots.find(s => s.formattedTime === slot)?.id;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
@@ -94,11 +154,11 @@ const AppointmentForm = ({ doctor, onClose }) => {
         </button>
 
         <h2 className="text-xl font-bold mb-6 text-gray-800 dark:text-white">
-          Book Appointment with {doctor}
+          Book Appointment with {doctor?.name || 'Doctor'}
         </h2>
 
         <div className="space-y-4">
-          {/* Date */}
+          {/* Date Picker */}
           <div>
             <label className="block mb-1 font-medium text-gray-700 dark:text-gray-300">Select Date</label>
             <input
@@ -111,35 +171,39 @@ const AppointmentForm = ({ doctor, onClose }) => {
               className="w-full px-4 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white text-gray-900"
             />
             {dateWarning && (
-              <p className="text-red-600 mt-2 text-sm font-medium">
-                {dateWarning}
-              </p>
+              <p className="text-red-600 mt-2 text-sm font-medium">{dateWarning}</p>
             )}
           </div>
 
           {/* Time Slots */}
           <div>
             <label className="block mb-1 font-medium text-gray-700 dark:text-gray-300">Select Time</label>
-            <div className="grid grid-cols-5 gap-2 max-h-[200px] overflow-y-auto">
-              {timeSlots.map((t, i) => {
-                const isDisabled = disabledSlots.includes(t);
-                const isSelected = slot === t;
+            {loadingSlots ? (
+              <div className="flex justify-center py-4">
+                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-red-500"></div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-5 gap-2 max-h-[200px] overflow-y-auto">
+                {availableSlots.map((s, i) => {
+                  const isDisabled = disabledSlots.includes(s.formattedTime) || s.status === "BOOKED";
+                  const isSelected = slot === s.formattedTime;
 
-                return (
-                  <button
-                    key={i}
-                    disabled={isDisabled}
-                    onClick={() => setSlot(t)}
-                    className={`text-xs px-2.5 py-1 rounded-full border font-regular tracking-wide
+                  return (
+                    <button
+                      key={i}
+                      disabled={isDisabled}
+                      onClick={() => setSlot(s.formattedTime)}
+                      className={`text-xs px-2.5 py-1 rounded-full border font-regular tracking-wide
                         ${isSelected ? 'bg-red-500 text-white' : 'bg-white text-gray-800 dark:bg-gray-700 dark:text-white border-gray-500'}
                         ${isDisabled ? 'opacity-40 cursor-not-allowed' : 'hover:bg-gray-100 dark:hover:bg-gray-600'}
                         transition-all duration-150 ease-in-out text-center whitespace-nowrap`}
-                  >
-                    {t}
-                  </button>
-                );
-              })}
-            </div>
+                    >
+                      {s.formattedTime}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
           </div>
 
           {/* Consult Type */}
@@ -156,7 +220,7 @@ const AppointmentForm = ({ doctor, onClose }) => {
             </select>
           </div>
 
-          {/* Mobile */}
+          {/* Mobile Number */}
           <div>
             <label className="block mb-1 font-medium text-gray-700 dark:text-gray-300">Mobile Number</label>
             <input
@@ -168,30 +232,19 @@ const AppointmentForm = ({ doctor, onClose }) => {
             />
           </div>
 
-          {/* OTP */}
-          {!otpSent ? (
-            <button
-              onClick={handleSendOtp}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-md"
-            >
-              Send OTP
-            </button>
+          {/* Stripe Payment Button */}
+          {date && slot && consultType && mobile && selectedSlotId ? (
+            <StripeCheckoutButton
+              slotId={selectedSlotId}
+              token={localStorage.getItem('authToken')}
+            />
           ) : (
-            <>
-              <input
-                type="text"
-                value={otp}
-                onChange={(e) => setOtp(e.target.value)}
-                placeholder="Enter OTP"
-                className="w-full px-4 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-              />
-              <button
-                onClick={handleVerifyOtp}
-                className="w-full mt-2 bg-green-600 hover:bg-green-700 text-white font-medium py-2 rounded-md"
-              >
-                Verify & Book
-              </button>
-            </>
+            <button
+              disabled
+              className="w-full bg-gray-400 text-white font-medium py-2 rounded-md cursor-not-allowed"
+            >
+              Fill all fields to proceed
+            </button>
           )}
         </div>
       </div>
